@@ -1,6 +1,16 @@
+<<<<<<< HEAD
 /bin/
 /.settings/
 /lib/
 .project
 .classpath
 *~
+=======
+/bin/
+/.settings/
+
+/lib/
+.project
+.classpath
+*~
+>>>>>>> branch 'master' of https://github.com/cquoss/java-examples.git
