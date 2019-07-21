@@ -1,9 +1,11 @@
 package de.quoss.example.httpexample;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,25 +38,42 @@ class HttpClientExample {
 	private static final Logger LOGGER = Logger.getLogger(CLASS_NAME);
 
 	/**
+	 * properties
+	 */
+	private Properties properties = new Properties();
+
+	/**
 	 * private working constructor
+	 * 
+	 * @throws HttpExampleException
+	 *             in case of error
 	 */
 	private HttpClientExample() throws HttpExampleException {
+
+		// call super
+		super();
 
 		// start message
 		LOGGER.log(Level.INFO, "start");
 
+		// try to load properties
+		try {
+			properties.load(new FileInputStream(CLASS_NAME.concat(".properties")));
+		} catch (IOException e) {
+			throw new HttpExampleException(e);
+		}
+
 		// try to open http connection
 		HttpURLConnection httpURLConnection = null;
 		try {
-			httpURLConnection = (HttpURLConnection) new URL("http://localhost:8080/?param1=value1&param2=value2")
-					.openConnection();
+			httpURLConnection = (HttpURLConnection) new URL(getProperty("url", null)).openConnection();
 		} catch (IOException e) {
 			throw new HttpExampleException(e);
 		}
 
 		// try to set GET request method
 		try {
-			httpURLConnection.setRequestMethod("GET");
+			httpURLConnection.setRequestMethod(getProperty("requestMethod", null));
 		} catch (ProtocolException e) {
 			throw new HttpExampleException(e);
 		}
@@ -87,6 +106,40 @@ class HttpClientExample {
 
 	}
 
+	/**
+	 * get property value
+	 * 
+	 * @param key
+	 *            short key
+	 * @param defaultValue
+	 *            default value
+	 * @return String property value
+	 * @throws HttpExampleException
+	 *             in case of missing mandatory property
+	 */
+	private String getProperty(String key, String defaultValue) throws HttpExampleException {
+
+		// build full key
+		String fullKey = CLASS_NAME.concat(".").concat(key);
+
+		// get property value
+		String value = properties.getProperty(fullKey, defaultValue);
+
+		// check if mandatory else return value
+		if (value == null) {
+			throw new HttpExampleException(String.format("Mandatory property missing [fullKey=%s]", fullKey));
+		} else {
+			return value;
+		}
+
+	}
+
+	/**
+	 * main method
+	 * 
+	 * @param args
+	 *            command line arguments
+	 */
 	public static void main(String[] args) {
 
 		// try to call private working constructor
