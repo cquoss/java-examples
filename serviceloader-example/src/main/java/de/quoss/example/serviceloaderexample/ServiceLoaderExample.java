@@ -14,10 +14,8 @@ public class ServiceLoaderExample {
 
     private void run() throws ServiceLoaderExampleException {
         // run the factory two times
-        ServiceLoaderExampleInterface serviceLoaderExampleInterface;
-        ServiceLoaderExampleFactory serviceLoaderExampleFactory = new ServiceLoaderExampleFactory();
-        serviceLoaderExampleFactory.getInstance();
-        serviceLoaderExampleFactory.getInstance();
+        LOGGER.info(ServiceLoaderExampleFactory.getImplementation().sayHello());
+        LOGGER.info(ServiceLoaderExampleFactory.getImplementation().sayHello());
     }
 
     public static void main(String[] args) {

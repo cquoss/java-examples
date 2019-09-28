@@ -8,10 +8,11 @@ import java.util.ServiceLoader;
 
 public class ServiceLoaderExampleFactory {
 
+    private static ServiceLoader<ServiceLoaderExampleInterface> serviceLoader = ServiceLoader.load(ServiceLoaderExampleInterface.class);
+
     private static final Logger LOGGER = LoggerFactory.getLogger(ServiceLoaderExampleFactory.class);
 
-    public ServiceLoaderExampleInterface getInstance() {
-        ServiceLoader<ServiceLoaderExampleInterface> serviceLoader = ServiceLoader.load(ServiceLoaderExampleInterface.class);
+    public static ServiceLoaderExampleInterface getImplementation() {
         Iterator<ServiceLoaderExampleInterface> iterator = serviceLoader.iterator();
         ServiceLoaderExampleInterface serviceLoaderExampleInterface = null;
         while (iterator.hasNext()) {

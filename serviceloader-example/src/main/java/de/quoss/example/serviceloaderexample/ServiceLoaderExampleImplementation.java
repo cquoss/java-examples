@@ -4,7 +4,7 @@ public class ServiceLoaderExampleImplementation implements ServiceLoaderExampleI
 
     @Override
     public String sayHello() {
-        return "Hello, ServiceLoader!";
+        return String.format("Hello, ServiceLoader from %s!", this);
     }
 
 }
