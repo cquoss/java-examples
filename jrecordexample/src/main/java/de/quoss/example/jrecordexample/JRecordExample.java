@@ -1,6 +1,7 @@
 package de.quoss.example.jrecordexample;
 
 import net.sf.JRecord.Common.Constants;
+import net.sf.JRecord.Common.FieldDetail;
 import net.sf.JRecord.Details.AbstractLine;
 import net.sf.JRecord.Details.LayoutDetail;
 import net.sf.JRecord.Details.Line;
@@ -38,15 +39,20 @@ public class JRecordExample {
 
     public void runBigDecimalExample() throws Exception {
         System.out.println("Running Big Decimal Example:");
+        String fieldName = "FIELD-1";
         CopybookLoader copybookLoader = new CobolCopybookLoader();
         ExternalRecord externalRecord = copybookLoader.loadCopyBook("src/main/resources/bigDecimalRecord.cbl", 0,
                 0, "", 0, 0, null);
         LayoutDetail layoutDetail = ToLayoutDetail.getInstance().getLayout(externalRecord);
+        FieldDetail fieldDetail = layoutDetail.getFieldFromName(fieldName);
         AbstractLine abstractLine = new Line(layoutDetail);
-        BigDecimal bigDecimal = new BigDecimal("0.00001");
-        abstractLine.setField("FIELD-1", bigDecimal);
-        System.out.println(String.format("Abstract Line - FIELD-1 (String): %s",
-                abstractLine.getFieldValue("FIELD-1").asString()));
+        // BigDecimal bigDecimal = new BigDecimal("0.000000023");
+        abstractLine.setField(fieldDetail, "0.000023");
+        System.out.println(String.format("Abstract Line - %s (String): %s", fieldName,
+                abstractLine.getFieldValue(fieldName).asString()));
+        BigDecimal returnValue = abstractLine.getFieldValue(fieldName).asBigDecimal();
+        System.out.println(String.format("Abstract Line - %s (BigDecimal): %s", fieldName,
+                returnValue.toPlainString()));
     }
 
     public static void main(String[] args) throws Exception {
