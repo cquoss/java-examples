@@ -77,7 +77,7 @@ public class Zehnergitter {
             }
         }
 
-        System.out.println("Länge Interim Zeile 1: " + interim.size());
+        System.out.println("Anzahl Permutationen Zeile 1 (Zwischenstand): " + interim.size());
 
         for (int i = 0; i < interim.size(); i++) {
             if (interim.get(i)[0] != 2 && interim.get(i)[5] != 3 && interim.get(i)[6] != 3) {
@@ -85,7 +85,7 @@ public class Zehnergitter {
             }
         }
 
-        System.out.println("Länge Result Zeile 1: " + result.size());
+        System.out.println("Anzahl Permuatationen Zeile 1 (Finaler Stand): " + result.size());
         return result;
     }
 
@@ -100,7 +100,7 @@ public class Zehnergitter {
             }
         }
 
-        System.out.println("Länge Interim Zeile 2: " + interim.size());
+        System.out.println("Anzahl Permutationen Zeile 2 (Zwischenstand): " + interim.size());
 
         for (int i = 0; i < interim.size(); i++) {
             if (interim.get(i)[1] != 8 && interim.get(i)[2] != 8 && interim.get(i)[1] != 9 && interim.get(i)[1] != 7
@@ -111,7 +111,7 @@ public class Zehnergitter {
             }
         }
 
-        System.out.println("Länge Result Zeile 2: " + result.size());
+        System.out.println("Anzahl Permutationen Zeile 2 (Finaler Stand): " + result.size());
         return result;
     }
 
@@ -127,7 +127,7 @@ public class Zehnergitter {
             }
         }
 
-        System.out.println("Länge Interim Zeile 3: " + interim.size());
+        System.out.println("Anzahl Permutationen Zeile 3 (Zwischenstand): " + interim.size());
 
         for (int i = 0; i < interim.size(); i++) {
             if (interim.get(i)[2] != 0 && interim.get(i)[2] != 3 && interim.get(i)[4] != 3 && interim.get(i)[6] != 3
@@ -137,7 +137,7 @@ public class Zehnergitter {
             }
         }
 
-        System.out.println("Länge Result Zeile 3: " + result.size());
+        System.out.println("Anzahl Permutationen Zeile 3 (Finaler Stand): " + result.size());
         return result;
     }
 
@@ -153,7 +153,7 @@ public class Zehnergitter {
             }
         }
 
-        System.out.println("Länge Interim Zeile 4: " + interim.size());
+        System.out.println("Anzahl Permutationen Zeile 4 (Zwischenstand): " + interim.size());
 
         for (int i = 0; i < interim.size(); i++) {
             if (interim.get(i)[3] != 1 && interim.get(i)[3] != 6 && interim.get(i)[4] != 1 && interim.get(i)[4] != 6
@@ -163,7 +163,7 @@ public class Zehnergitter {
             }
         }
 
-        System.out.println("Länge Result Zeile 4: " + result.size());
+        System.out.println("Anzahl Permutationen Zeile 4 (Finaler Stand): " + result.size());
         return result;
     }
 
@@ -178,7 +178,7 @@ public class Zehnergitter {
             }
         }
 
-        System.out.println("Länge Interim Zeile 5: " + interim.size());
+        System.out.println("Anzahl Permutationen Zeile 5 (Zwischenstand): " + interim.size());
 
         for (int i = 0; i < interim.size(); i++) {
             if (interim.get(i)[0] != 4 && interim.get(i)[1] != 4 && interim.get(i)[0] != 0 && interim.get(i)[1] != 0
@@ -190,7 +190,7 @@ public class Zehnergitter {
             }
         }
 
-        System.out.println("Länge Result Zeile 5: " + result.size());
+        System.out.println("Anzahl Permutationen Zeile 5 (Finaler Stand): " + result.size());
         return result;
     }
 
@@ -205,7 +205,7 @@ public class Zehnergitter {
             }
         }
 
-        System.out.println("Länge Interim Zeile 6: " + interim.size());
+        System.out.println("Anzahl Permutationen Zeile 6 (Zwischenstand): " + interim.size());
 
         for (int i = 0; i < interim.size(); i++) {
             if (interim.get(i)[2] != 1 && interim.get(i)[3] != 1 && interim.get(i)[4] != 1 && interim.get(i)[5] != 4
@@ -214,7 +214,7 @@ public class Zehnergitter {
             }
         }
 
-        System.out.println("Länge Result Zeile 6: " + result.size());
+        System.out.println("Anzahl Permutationen Zeile 6 (Finaler Stand): " + result.size());
         return result;
     }
 
@@ -233,14 +233,31 @@ public class Zehnergitter {
         int zaehler = 0;
 
         System.out.println();
-        for (int i = 0; i < zeile_1.size(); i++) {
-            System.out.print("a(" + i + ")");
-            for (int j = 0; j < zeile_2.size(); j++) {
+        long startMillis = System.currentTimeMillis();
+    	for (int i = 0; i < zeile_1.size(); i++) {
+            System.out.println(String.format("%na(%s) [%s ms]", i, (System.currentTimeMillis() - startMillis)));
+            startMillis = System.currentTimeMillis();
+    		for (int j = 0; j < zeile_2.size(); j++) {
                 System.out.print("b(" + j + ")");
+                if(checkLine(zeile_1.get(i), zeile_2.get(j))) {
+                	continue;
+                }
                 for (int k = 0; k < zeile_3.size(); k++) {
+                	if(checkLine(zeile_2.get(j), zeile_3.get(k))) {
+                    	continue;
+                    }
                     for (int l = 0; l < zeile_4.size(); l++) {
+                    	if(checkLine(zeile_3.get(k), zeile_4.get(l))) {
+                        	continue;
+                        }
                         for (int m = 0; m < zeile_5.size(); m++) {
+                        	if(checkLine(zeile_4.get(l), zeile_5.get(m))) {
+                            	continue;
+                            }
                             for (int n = 0; n < zeile_6.size(); n++) {
+                            	if(checkLine(zeile_5.get(m), zeile_6.get(n))) {
+                                	continue;
+                                }
 
                                 if (15 + zeile_1.get(i)[0] + zeile_5.get(m)[0] + zeile_6.get(n)[0] == 29
                                         && 16 + zeile_2.get(j)[1] + zeile_5.get(m)[1] == 30
@@ -304,6 +321,28 @@ public class Zehnergitter {
         else
             System.out.println("Hurrah! Wir haben eine Lösung!");
     }
+
+	private boolean checkLine(int[] zeile_oben, int[] zeile_unten) {
+		boolean result = false;
+		for(int o = 0; o < 10; o++) {
+			int temp2 = zeile_unten[o];
+			switch(o) {
+			case 0: if(zeile_oben[o] == temp2 || zeile_oben[o+1] == temp2) {
+						result = true;
+					}
+					break;
+			case 9: if(zeile_oben[o-1] == temp2|| zeile_oben[o] == temp2) {
+		    			result = true;
+		    		}
+					break;
+			default: if(zeile_oben[o-1] == temp2|| zeile_oben[o] == temp2 || zeile_oben[o+1] == temp2) {
+		        		result = true;
+		        	}
+					break;
+			}
+		}
+		return result;
+	}
 
     public static void main(String[] args) {
         try {
