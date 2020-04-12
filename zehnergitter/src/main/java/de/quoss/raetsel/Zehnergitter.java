@@ -2,6 +2,7 @@ package de.quoss.raetsel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 public class Zehnergitter {
@@ -225,6 +226,8 @@ public class Zehnergitter {
 
     public void run() throws ZehnergitterException {
 
+        System.out.println(String.format("Start - %s", new Date()));
+        
         createPermutations(10, new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
 
         List<int[]> zeile_1 = filterZeile1();
@@ -238,8 +241,9 @@ public class Zehnergitter {
         System.out.println();
         long startMillis = System.currentTimeMillis();
     	for (int i = 0; i < zeile_1.size(); i++) {
-            System.out.println(String.format("Zeile 1: %s/%s geprüft [%s ms].", 
-                    i, zeile_1.size(), (System.currentTimeMillis() - startMillis)));
+            System.out.println(String.format("Zeile 1: %s/%s geprüft - %s - [%s ms].", 
+                    i, zeile_1.size(), new Date(), 
+                    (System.currentTimeMillis() - startMillis)));
             startMillis = System.currentTimeMillis();
     		for (int j = 0; j < zeile_2.size(); j++) {
                 if(checkLine(zeile_1.get(i), zeile_2.get(j))) {
@@ -319,10 +323,14 @@ public class Zehnergitter {
                 }
             }
         }
-        if (zaehler == 0)
+        if (zaehler == 0) {
             System.out.println("Das war wohl nichts!");
-        else
+        }
+        else {
             System.out.println("Hurrah! Wir haben eine Lösung!");
+        }
+        System.out.println(String.format("Ende - %s", new Date()));
+
     }
 
 	private boolean checkLine(int[] zeile_oben, int[] zeile_unten) {
