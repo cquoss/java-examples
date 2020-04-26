@@ -1,0 +1,1 @@
+       01  FIELD-1 PIC S9V9(9) COMP-3.

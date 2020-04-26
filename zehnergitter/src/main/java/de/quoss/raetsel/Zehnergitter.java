@@ -2,10 +2,14 @@ package de.quoss.raetsel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 public class Zehnergitter {
 
+    private static final String ANZ_PERM_INT_FMT = "Anzahl Permutationen Zeile %s (Zwischenstand): %s";
+    private static final String ANZ_PERM_FIN_FMT = "Anzahl Permutationen Zeile %s (Finaler Stand): %s";
+    
     private int anzahlPermutationen = 0;
     private int[][] allePermutationen = new int[3628800][10];
 
@@ -67,8 +71,8 @@ public class Zehnergitter {
 
     List<int[]> filterZeile1() {
 
-        List<int[]> interim = new ArrayList<int[]>();
-        List<int[]> result = new ArrayList<int[]>();
+        List<int[]> interim = new ArrayList<>();
+        List<int[]> result = new ArrayList<>();
 
         for (int i = 0; i < 3628800; i++) {
             if (allePermutationen[i][1] == 8 && allePermutationen[i][4] == 7 && allePermutationen[i][8] == 0
@@ -77,7 +81,7 @@ public class Zehnergitter {
             }
         }
 
-        System.out.println("Länge Interim Zeile 1: " + interim.size());
+        System.out.println(String.format(ANZ_PERM_INT_FMT, 1, interim.size()));
 
         for (int i = 0; i < interim.size(); i++) {
             if (interim.get(i)[0] != 2 && interim.get(i)[5] != 3 && interim.get(i)[6] != 3) {
@@ -85,14 +89,14 @@ public class Zehnergitter {
             }
         }
 
-        System.out.println("Länge Result Zeile 1: " + result.size());
+        System.out.println(String.format(ANZ_PERM_FIN_FMT, 1, result.size()));
         return result;
     }
 
     List<int[]> filterZeile2() {
 
-        List<int[]> interim = new ArrayList<int[]>();
-        List<int[]> result = new ArrayList<int[]>();
+        List<int[]> interim = new ArrayList<>();
+        List<int[]> result = new ArrayList<>();
 
         for (int i = 0; i < 3628800; i++) {
             if (allePermutationen[i][0] == 2 && allePermutationen[i][5] == 3 && allePermutationen[i][9] == 7) {
@@ -100,7 +104,7 @@ public class Zehnergitter {
             }
         }
 
-        System.out.println("Länge Interim Zeile 2: " + interim.size());
+        System.out.println(String.format(ANZ_PERM_INT_FMT, 2, interim.size()));
 
         for (int i = 0; i < interim.size(); i++) {
             if (interim.get(i)[1] != 8 && interim.get(i)[2] != 8 && interim.get(i)[1] != 9 && interim.get(i)[1] != 7
@@ -111,14 +115,14 @@ public class Zehnergitter {
             }
         }
 
-        System.out.println("Länge Result Zeile 2: " + result.size());
+        System.out.println(String.format(ANZ_PERM_FIN_FMT, 2, result.size()));
         return result;
     }
 
     List<int[]> filterZeile3() {
 
-        List<int[]> interim = new ArrayList<int[]>();
-        List<int[]> result = new ArrayList<int[]>();
+        List<int[]> interim = new ArrayList<>();
+        List<int[]> result = new ArrayList<>();
 
         for (int i = 0; i < 3628800; i++) {
             if (allePermutationen[i][0] == 9 && allePermutationen[i][1] == 7 && allePermutationen[i][3] == 6 && allePermutationen[i][5] == 5
@@ -127,7 +131,7 @@ public class Zehnergitter {
             }
         }
 
-        System.out.println("Länge Interim Zeile 3: " + interim.size());
+        System.out.println(String.format(ANZ_PERM_INT_FMT, 3, interim.size()));
 
         for (int i = 0; i < interim.size(); i++) {
             if (interim.get(i)[2] != 0 && interim.get(i)[2] != 3 && interim.get(i)[4] != 3 && interim.get(i)[6] != 3
@@ -137,14 +141,14 @@ public class Zehnergitter {
             }
         }
 
-        System.out.println("Länge Result Zeile 3: " + result.size());
+        System.out.println(String.format(ANZ_PERM_FIN_FMT, 3, result.size()));
         return result;
     }
 
     List<int[]> filterZeile4() {
 
-        List<int[]> interim = new ArrayList<int[]>();
-        List<int[]> result = new ArrayList<int[]>();
+        List<int[]> interim = new ArrayList<>();
+        List<int[]> result = new ArrayList<>();
 
         for (int i = 0; i < 3628800; i++) {
             if (allePermutationen[i][0] == 4 && allePermutationen[i][1] == 0 && allePermutationen[i][2] == 3 && allePermutationen[i][7] == 1
@@ -153,7 +157,7 @@ public class Zehnergitter {
             }
         }
 
-        System.out.println("Länge Interim Zeile 4: " + interim.size());
+        System.out.println(String.format(ANZ_PERM_INT_FMT, 4, interim.size()));
 
         for (int i = 0; i < interim.size(); i++) {
             if (interim.get(i)[3] != 1 && interim.get(i)[3] != 6 && interim.get(i)[4] != 1 && interim.get(i)[4] != 6
@@ -163,14 +167,14 @@ public class Zehnergitter {
             }
         }
 
-        System.out.println("Länge Result Zeile 4: " + result.size());
+        System.out.println(String.format(ANZ_PERM_FIN_FMT, 4, result.size()));
         return result;
     }
 
     List<int[]> filterZeile5() {
 
-        List<int[]> interim = new ArrayList<int[]>();
-        List<int[]> result = new ArrayList<int[]>();
+        List<int[]> interim = new ArrayList<>();
+        List<int[]> result = new ArrayList<>();
 
         for (int i = 0; i < 3628800; i++) {
             if (allePermutationen[i][3] == 1 && allePermutationen[i][6] == 4 && allePermutationen[i][9] == 0) {
@@ -178,7 +182,7 @@ public class Zehnergitter {
             }
         }
 
-        System.out.println("Länge Interim Zeile 5: " + interim.size());
+        System.out.println(String.format(ANZ_PERM_INT_FMT, 5, interim.size()));
 
         for (int i = 0; i < interim.size(); i++) {
             if (interim.get(i)[0] != 4 && interim.get(i)[1] != 4 && interim.get(i)[0] != 0 && interim.get(i)[1] != 0
@@ -190,14 +194,14 @@ public class Zehnergitter {
             }
         }
 
-        System.out.println("Länge Result Zeile 5: " + result.size());
+        System.out.println(String.format(ANZ_PERM_FIN_FMT, 5, result.size()));
         return result;
     }
 
     List<int[]> filterZeile6() {
 
-        List<int[]> interim = new ArrayList<int[]>();
-        List<int[]> result = new ArrayList<int[]>();
+        List<int[]> interim = new ArrayList<>();
+        List<int[]> result = new ArrayList<>();
 
         for (int i = 0; i < 3628800; i++) {
             if (allePermutationen[i][1] == 1 && allePermutationen[i][6] == 3 && allePermutationen[i][8] == 8 && allePermutationen[i][9] == 7) {
@@ -205,7 +209,7 @@ public class Zehnergitter {
             }
         }
 
-        System.out.println("Länge Interim Zeile 6: " + interim.size());
+        System.out.println(String.format(ANZ_PERM_INT_FMT, 6, interim.size()));
 
         for (int i = 0; i < interim.size(); i++) {
             if (interim.get(i)[2] != 1 && interim.get(i)[3] != 1 && interim.get(i)[4] != 1 && interim.get(i)[5] != 4
@@ -214,7 +218,7 @@ public class Zehnergitter {
             }
         }
 
-        System.out.println("Länge Result Zeile 6: " + result.size());
+        System.out.println(String.format(ANZ_PERM_FIN_FMT, 6, result.size()));
         return result;
     }
 
@@ -222,6 +226,8 @@ public class Zehnergitter {
 
     public void run() throws ZehnergitterException {
 
+        System.out.println(String.format("Start - %s", new Date()));
+        
         createPermutations(10, new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
 
         List<int[]> zeile_1 = filterZeile1();
@@ -233,14 +239,32 @@ public class Zehnergitter {
         int zaehler = 0;
 
         System.out.println();
-        for (int i = 0; i < zeile_1.size(); i++) {
-            System.out.print("a(" + i + ")");
-            for (int j = 0; j < zeile_2.size(); j++) {
-                System.out.print("b(" + j + ")");
+        long startMillis = System.currentTimeMillis();
+    	for (int i = 0; i < zeile_1.size(); i++) {
+            System.out.println(String.format("Zeile 1: %s/%s geprüft - %s - [%s ms].", 
+                    i, zeile_1.size(), new Date(), 
+                    (System.currentTimeMillis() - startMillis)));
+            startMillis = System.currentTimeMillis();
+    		for (int j = 0; j < zeile_2.size(); j++) {
+                if(checkLine(zeile_1.get(i), zeile_2.get(j))) {
+                	continue;
+                }
                 for (int k = 0; k < zeile_3.size(); k++) {
+                	if(checkLine(zeile_2.get(j), zeile_3.get(k))) {
+                    	continue;
+                    }
                     for (int l = 0; l < zeile_4.size(); l++) {
+                    	if(checkLine(zeile_3.get(k), zeile_4.get(l))) {
+                        	continue;
+                        }
                         for (int m = 0; m < zeile_5.size(); m++) {
+                        	if(checkLine(zeile_4.get(l), zeile_5.get(m))) {
+                            	continue;
+                            }
                             for (int n = 0; n < zeile_6.size(); n++) {
+                            	if(checkLine(zeile_5.get(m), zeile_6.get(n))) {
+                                	continue;
+                                }
 
                                 if (15 + zeile_1.get(i)[0] + zeile_5.get(m)[0] + zeile_6.get(n)[0] == 29
                                         && 16 + zeile_2.get(j)[1] + zeile_5.get(m)[1] == 30
@@ -299,11 +323,37 @@ public class Zehnergitter {
                 }
             }
         }
-        if (zaehler == 0)
+        if (zaehler == 0) {
             System.out.println("Das war wohl nichts!");
-        else
+        }
+        else {
             System.out.println("Hurrah! Wir haben eine Lösung!");
+        }
+        System.out.println(String.format("Ende - %s", new Date()));
+
     }
+
+	private boolean checkLine(int[] zeile_oben, int[] zeile_unten) {
+		boolean result = false;
+		for(int o = 0; o < 10; o++) {
+			int temp2 = zeile_unten[o];
+			switch(o) {
+			case 0: if(zeile_oben[o] == temp2 || zeile_oben[o+1] == temp2) {
+						result = true;
+					}
+					break;
+			case 9: if(zeile_oben[o-1] == temp2|| zeile_oben[o] == temp2) {
+		    			result = true;
+		    		}
+					break;
+			default: if(zeile_oben[o-1] == temp2|| zeile_oben[o] == temp2 || zeile_oben[o+1] == temp2) {
+		        		result = true;
+		        	}
+					break;
+			}
+		}
+		return result;
+	}
 
     public static void main(String[] args) {
         try {
