@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
+	soap:encodingStyle="http://www.w3.org/2003/05/soap-encoding">
+	<soap:Header/>
+	<soap:Body>
+		<soap:Fault>
+			<soap:Code>
+				<soap:Value>soap:Sender</soap:Value>
+			</soap:Code>
+			<soap:Reason>
+				<soap:Text xml:lang="en-US">
+					Message does not have necessary info.
+				</soap:Text>
+			</soap:Reason>
+			<soap:Role>http://gizmos.com/order</soap:Role>
+			<soap:Detail>
+				<error>
+					<code>INT001</code>
+					<text/>
+				</error>
+			</soap:Detail>
+		</soap:Fault>
+	</soap:Body>
+</soap:Envelope>

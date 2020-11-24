@@ -1,0 +1,4 @@
+       01  GROUP-01.
+           03 FIELD-01 PIC S999 COMP-3.
+           03 FIELD-02 PIC XXXX.
+           03 FIELD-03 PIC S9V99 COMP-3.
