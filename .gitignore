@@ -1,6 +1,9 @@
+.classpath
 .idea
 .project
-.classpath
+.settings
 *~
-
 /http-server/target/
+target
+*.iml
+nb-configuration.xml

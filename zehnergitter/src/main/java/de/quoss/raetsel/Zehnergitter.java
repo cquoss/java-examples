@@ -266,6 +266,24 @@ public class Zehnergitter {
                                 	continue;
                                 }
 
+                                for (int col = 0; col < 10; col++) {
+                                    System.out.println("DEBUG - Spalte " + col + ": " 
+                                        + zeile_1.get(i)[col] + "/"
+                                        + zeile_2.get(j)[col] + "/"
+                                        + zeile_3.get(k)[col] + "/"
+                                        + zeile_4.get(l)[col] + "/"
+                                        + zeile_5.get(m)[col] + "/"
+                                        + zeile_6.get(n)[col] + "//"
+                                        + (zeile_1.get(i)[col]
+                                        + zeile_2.get(j)[col]
+                                        + zeile_3.get(k)[col]
+                                        + zeile_4.get(l)[col]
+                                        + zeile_5.get(m)[col]
+                                        + zeile_6.get(n)[col])
+                                        );
+                                }
+                                System.out.println("------------------------");
+
                                 if (15 + zeile_1.get(i)[0] + zeile_5.get(m)[0] + zeile_6.get(n)[0] == 29
                                         && 16 + zeile_2.get(j)[1] + zeile_5.get(m)[1] == 30
                                         && 3 + zeile_1.get(i)[2] + zeile_2.get(j)[2] + zeile_3.get(k)[2] + zeile_5.get(m)[2] + zeile_6.get(n)[2] == 31
