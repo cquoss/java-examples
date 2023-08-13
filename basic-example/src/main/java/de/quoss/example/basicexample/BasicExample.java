@@ -1,5 +1,7 @@
 package de.quoss.example.basicexample;
 
+import java.util.logging.Logger;
+
 /**
  * basic java example
  * 
@@ -22,7 +24,7 @@ public class BasicExample {
 	 * run process logic 
 	 */
 	public void run() {
-		System.out.println("Hello, World!");
+		Logger.getAnonymousLogger().info("Hello, World!");
 	}
 
 }
