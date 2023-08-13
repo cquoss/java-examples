@@ -4,10 +4,11 @@
 .settings/
 
 # JetBrains IntelliJ IdeaIU
-**.iml
+*.iml
 .idea/
 
-*~
-/http-server/target/
-target
+# Apache Maven
+target/
+
+# Apache NetBeans
 nb-configuration.xml
