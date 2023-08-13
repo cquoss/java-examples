@@ -1,9 +1,13 @@
+# Eclipse
 .classpath
-.idea
 .project
-.settings
+.settings/
+
+# JetBrains IntelliJ IdeaIU
+**.iml
+.idea/
+
 *~
 /http-server/target/
 target
-*.iml
 nb-configuration.xml
