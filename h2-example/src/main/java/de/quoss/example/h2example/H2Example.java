@@ -2,38 +2,31 @@ package de.quoss.example.h2example;
 
 import de.quoss.example.h2example.bean.Kunde;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import de.quoss.sql.support.SqlSupport;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
 
 public class H2Example {
 
-    private void run() throws Exception {
-        // load driver class
-        // Class.forName("org.h2.Driver");
-        // get connection
-        Connection connection = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
-        // create statement
-        Statement statement = connection.createStatement();
-        // define sql string
-        String sql = readStringFromClasspathResource("selectUks.sql");
-        // execute statement
-        if (statement.execute(sql)) {
-            System.out.println(String.format("Result: %s", statement.getResultSet()));
-        } else {
-            System.out.println(String.format("Update count: %s", statement.getUpdateCount()));
-        }
-        // close statement
-        statement.close();
-        // close connection
-        connection.close();
-        // instantiate kunde object
-        Kunde kunde = new Kunde(0);
+    private static final Logger LOGGER = LoggerFactory.getLogger(H2Example.class);
+
+    private static final String URL = "jdbc:h2:~/test";
+
+    private void run() throws H2ExampleException {
+        // create table uks
+        LOGGER.info("Create table UKS: {}", SqlSupport.execute(URL, "sa", "",
+                readStringFromClasspathResource("create-uks.sql")));
+        // execute select
+        LOGGER.info("Select table UKS (before): {}", SqlSupport.execute(URL, "sa", "",
+                readStringFromClasspathResource("select-uks.sql")));
+        // instantiate and format kunde object
+        Kunde kunde = new Kunde(0, "Clemens Quoß", "");
         // insert using hibernate
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("de.quoss.example.h2example.bean.Kunde");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -42,28 +35,23 @@ public class H2Example {
         entityManager.getTransaction().commit();
         entityManager.close();
         entityManagerFactory.close();
+        // execute select
+        LOGGER.info("Select table UKS (after): {}", SqlSupport.execute(URL, "sa", "",
+                readStringFromClasspathResource("select-uks.sql")));
     }
 
-    private String readStringFromClasspathResource(final String resourceName) throws Exception {
-        StringBuilder stringBuilder = new StringBuilder();
-        byte[] buffer = new byte[1024];
-        InputStream inputStream = getStreamFromClasspath(resourceName);
-        int bytesRead;
-        while ((bytesRead = inputStream.read(buffer)) != -1) {
-            stringBuilder.append(new String(buffer).substring(0, bytesRead));
+    private static String readStringFromClasspathResource(final String resourceName) throws H2ExampleException {
+        try (final InputStream stream = H2Example.class.getClassLoader().getResourceAsStream(resourceName)) {
+            if (stream == null) {
+                throw new H2ExampleException("Classpath resource " + resourceName + " not found.");
+            }
+            return new String(stream.readAllBytes());
+        } catch (final IOException e) {
+            throw new H2ExampleException("Error reading from classpath resource " + resourceName + ": " + e.getMessage(), e);
         }
-        return stringBuilder.toString();
     }
 
-    private InputStream getStreamFromClasspath(final String resourceName) throws Exception {
-        InputStream result = getClass().getClassLoader().getResourceAsStream(resourceName);
-        if (result == null) {
-            throw new IOException(String.format("Resource %s not found in classpath.", resourceName));
-        }
-        return result;
-    }
-
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws H2ExampleException {
         new H2Example().run();
     }
 }

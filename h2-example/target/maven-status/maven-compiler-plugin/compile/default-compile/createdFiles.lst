@@ -1,1 +1,3 @@
-de\quoss\example\h2example\H2Example.class
+de/quoss/example/h2example/bean/Kunde.class
+de/quoss/example/h2example/H2ExampleException.class
+de/quoss/example/h2example/H2Example.class

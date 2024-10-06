@@ -6,6 +6,11 @@
         <artifactId>parent</artifactId>
         <version>1.0</version>
     </parent>
-    <artifactId>basic-example</artifactId>
-    <description>Basic java example</description>
+    <artifactId>exception-handling-example</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+        </dependency>
+    </dependencies>
 </project>
