@@ -12,3 +12,6 @@ target/
 
 # Apache NetBeans
 nb-configuration.xml
+
+# App
+/java-examples-xml-stream/output*.xml
