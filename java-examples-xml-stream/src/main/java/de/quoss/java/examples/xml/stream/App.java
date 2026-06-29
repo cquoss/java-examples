@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -56,7 +57,8 @@ public class App {
             documentBuilderFactory.setExpandEntityReferences(false);
             DocumentBuilder builder = documentBuilderFactory.newDocumentBuilder();
             Document document;
-            try (InputStreamReader reader = new InputStreamReader(new FileInputStream(getInputFilePath(commandLine)), Charset.forName("ISO-8859-15"))) {
+            try (FileInputStream inputStream = new FileInputStream(getInputFilePath(commandLine));
+                    InputStreamReader reader = new InputStreamReader(inputStream, Charset.forName(getInputEncoding(commandLine)))) {
                 document = builder.parse(new InputSource(reader));
             }
             System.out.println("document.input-encoding: " + document.getInputEncoding());
@@ -70,8 +72,7 @@ public class App {
         }
     }
     
-    private void encodeUtf8TransformDomSource(CommandLine commandLine) {
-        DOMSource domSource = new DOMSource(createDocument(commandLine));
+    private Transformer createTransformer() {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
         transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
@@ -86,38 +87,24 @@ public class App {
         } catch (TransformerConfigurationException e) {
             throw new IllegalStateException("Error creating transformer: " + e.getMessage(), e);
         }
-        try (FileWriter writer = new FileWriter(getOutputFilePath(commandLine))) {
-            StreamResult streamResult = new StreamResult(writer);
-            transformer.transform(domSource, streamResult);
+        return transformer;
+    }
+    
+    private void encodeUtf8TransformDomSource(CommandLine commandLine) {
+        try (FileOutputStream outputStream = new FileOutputStream(getOutputFilePath(commandLine));
+                OutputStreamWriter writer = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8)) {
+            createTransformer().transform(new DOMSource(createDocument(commandLine)), new StreamResult(writer));
         } catch (IOException |TransformerException e) {
             throw new IllegalStateException("Error transforming dom: " + e.getMessage(), e);
         }
     }
 
     private void encodeUtf8TransformStreamSource(CommandLine commandLine) {
-        StreamSource source;
-        try (FileReader reader = new FileReader(getInputEncoding(commandLine))) {
-            source = new StreamSource(new FileReader(getInputFilePath(commandLine)));
-        } catch (IOException e) {
-            throw new IllegalStateException("Error creating stream source: " + e.getMessage(), e);
-        }
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-        transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
-        Transformer transformer;
-        try {
-            transformer = transformerFactory.newTransformer();
-            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
-            transformer.setOutputProperty(OutputKeys.STANDALONE, "yes");
-        } catch (TransformerConfigurationException e) {
-            throw new IllegalStateException("Error creating transformer: " + e.getMessage(), e);
-        }
-        try (FileWriter writer = new FileWriter(getOutputFilePath(commandLine))) {
-            StreamResult streamResult = new StreamResult(writer);
-            transformer.transform(source, streamResult);
+        try (FileInputStream inputStream = new FileInputStream(getInputFilePath(commandLine));
+                InputStreamReader reader = new InputStreamReader(inputStream, Charset.forName(getInputEncoding(commandLine)));
+                FileOutputStream outputStream = new FileOutputStream(getOutputFilePath(commandLine));
+                OutputStreamWriter writer = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8)) {
+            createTransformer().transform(new StreamSource(reader), new StreamResult(writer));
         } catch (IOException |TransformerException e) {
             throw new IllegalStateException("Error transforming stream source: " + e.getMessage(), e);
         }
@@ -187,7 +174,7 @@ public class App {
                 encodeUtf8TransformDomSource(commandLine);
                 break;
             case "encode-utf8-transform-stream-source":
-                encodeUtf8TransformDomSource(commandLine);
+                encodeUtf8TransformStreamSource(commandLine);
                 break;
             default:
                 throw new IllegalArgumentException("Function value '" + function + "' is not supported");
